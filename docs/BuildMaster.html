@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>TempleOTemple — Build Master</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --saffron:#E8820C; --saffron-dark:#C96A00; --maroon:#7A1F1F; --gold:#C9A227;
+    --ink:#2A2117; --muted:#6B5E4E; --cream:#FBF6EE; --cream2:#F3E9D8;
+    --line:#E7D9C2; --green:#2E7D4F; --amber:#C98A00; --grey:#9A9185;
+    --shadow:0 10px 30px rgba(122,31,31,.08);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0; font-family:"Inter",system-ui,sans-serif; color:var(--ink); background:var(--cream); line-height:1.6; font-size:15px;}
+  h1,h2,h3{font-family:"Marcellus",Georgia,serif; font-weight:400; line-height:1.2; color:var(--maroon);}
+  h2{font-size:1.75rem; margin:0 0 .4rem;}
+  h3{font-size:1.15rem; margin:1.3rem 0 .5rem; color:var(--saffron-dark);}
+  h4{margin:1rem 0 .3rem; color:var(--maroon); font-size:1rem;}
+  p{margin:.5rem 0;}
+  a{color:var(--saffron-dark);}
+  code,.mono{font-family:"JetBrains Mono",monospace; font-size:.85em; background:var(--cream2); padding:1px 6px; border-radius:5px;}
+  pre{background:#2A2117; color:#F3E9D8; border-radius:12px; padding:16px 18px; overflow-x:auto; font-family:"JetBrains Mono",monospace; font-size:.82rem; line-height:1.55; box-shadow:var(--shadow);}
+  pre .c{color:var(--gold);} pre .k{color:#E8820C;}
+  .wrap{max-width:960px; margin:0 auto; padding:0 24px;}
+
+  /* NAV */
+  .topnav{position:sticky; top:0; z-index:100; background:rgba(42,33,23,.97); backdrop-filter:blur(8px); border-bottom:2px solid var(--gold); box-shadow:0 2px 12px rgba(0,0,0,.14);}
+  .topnav .bar{display:flex; align-items:center; gap:4px; overflow-x:auto; max-width:1000px; margin:0 auto; padding:9px 20px; white-space:nowrap;}
+  .topnav .bar::-webkit-scrollbar{height:5px;} .topnav .bar::-webkit-scrollbar-thumb{background:rgba(255,255,255,.3); border-radius:9px;}
+  .topnav a{color:#fff; opacity:.82; text-decoration:none; font-size:.82rem; font-weight:500; padding:6px 11px; border-radius:7px; flex:0 0 auto;}
+  .topnav a:hover{opacity:1; background:rgba(255,255,255,.16);}
+  .topnav a.nb-brand{font-family:"Marcellus",serif; font-size:.95rem; color:var(--gold); opacity:1; padding-left:0;}
+
+  /* HERO */
+  .hero{background:linear-gradient(135deg,#2A2117,var(--maroon) 70%,var(--saffron-dark)); color:#fff; padding:56px 0 48px;}
+  .brand{font-family:"Marcellus",serif; font-size:2.4rem; color:#fff; margin:0;}
+  .brand .o{color:var(--gold);}
+  .tagline{font-size:1.05rem; opacity:.92; margin:.3rem 0 1rem; max-width:640px;}
+  .chip{display:inline-block; background:rgba(255,255,255,.14); border:1px solid rgba(255,255,255,.3); padding:5px 13px; border-radius:999px; font-size:.82rem; margin:4px 6px 0 0;}
+
+  section{padding:36px 0; border-bottom:1px solid var(--line); scroll-margin-top:58px;}
+  .kicker{display:inline-block; font-size:.72rem; letter-spacing:.18em; text-transform:uppercase; color:var(--saffron-dark); font-weight:700; margin-bottom:6px;}
+  .lead{font-size:1.05rem; color:var(--muted);}
+
+  table{width:100%; border-collapse:collapse; margin:14px 0; background:#fff; border-radius:10px; overflow:hidden; box-shadow:var(--shadow); font-size:.88rem;}
+  th,td{text-align:left; padding:9px 12px; border-bottom:1px solid var(--line); vertical-align:top;}
+  th{background:var(--cream2); color:var(--maroon); font-weight:600;}
+  tr:last-child td{border-bottom:none;}
+  .badge{display:inline-block; padding:2px 9px; border-radius:999px; font-size:.75rem; font-weight:600; white-space:nowrap;}
+  .s-ok{background:#E3F2E8; color:var(--green);}
+  .s-mid{background:#FDF0DD; color:var(--amber);}
+  .s-todo{background:#ECE6DB; color:var(--grey);}
+  .tag{display:inline-block; background:var(--cream2); border:1px solid var(--line); border-radius:6px; padding:1px 8px; font-size:.75rem; color:var(--maroon); font-weight:600;}
+
+  .note{font-size:.82rem; color:var(--muted); font-style:italic; margin-top:6px;}
+  .legend{display:flex; flex-wrap:wrap; gap:14px; margin:12px 0; font-size:.82rem;}
+  .callout{background:linear-gradient(135deg,var(--cream2),#fff); border-left:5px solid var(--gold); border-radius:0 12px 12px 0; padding:14px 20px; margin:14px 0; box-shadow:var(--shadow);}
+  .grid2{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+  ul.check{list-style:none; padding:0; margin:10px 0;}
+  ul.check li{padding:6px 0 6px 26px; position:relative; border-bottom:1px solid var(--line); font-size:.9rem;}
+  ul.check li:last-child{border-bottom:none;}
+  ul.check li::before{content:"✓"; position:absolute; left:2px; top:6px; color:var(--green); font-weight:700;}
+  footer{padding:28px 0 48px; text-align:center; color:var(--muted); font-size:.88rem;}
+
+  @media (max-width:680px){ .grid2{grid-template-columns:1fr;} .brand{font-size:1.9rem;} }
+  @media print{ .topnav{display:none;} body{background:#fff; font-size:11px;} table,pre,.callout{box-shadow:none;} section{page-break-inside:avoid;} .hero{-webkit-print-color-adjust:exact; print-color-adjust:exact;} }
+</style>
+</head>
+<body>
+
+<nav class="topnav"><div class="bar">
+  <a href="#top" class="nb-brand">🛠️ Build Master</a>
+  <a href="#decisions">Decisions</a>
+  <a href="#stack">Stack</a>
+  <a href="#fork">Fork Strategy</a>
+  <a href="#features">Feature Matrix</a>
+  <a href="#categories">Category Tree</a>
+  <a href="#data">Data Model</a>
+  <a href="#workflows">Workflows</a>
+  <a href="#gate">Review Gate</a>
+  <a href="#phases">Phases</a>
+</div></nav>
+
+<header class="hero" id="top"><div class="wrap">
+  <h1 class="brand">Temple<span class="o">O</span>Temple — Build Master</h1>
+  <p class="tagline">Engineering source of truth. Every feature, category, table, and workflow — mapped to phases. Pitch version: <code>Proposal.html</code>.</p>
+  <span class="chip">Fork of cuckoo</span>
+  <span class="chip">India · Tamil Nadu</span>
+  <span class="chip">Flutter + Next.js + Supabase</span>
+  <span class="chip">Razorpay Route</span>
+</div></header>
+
+<!-- DECISIONS -->
+<section id="decisions"><div class="wrap">
+  <span class="kicker">Locked Decisions</span>
+  <h2>What's fixed</h2>
+  <table>
+    <tr><th>Decision</th><th>Choice</th><th>Consequence</th></tr>
+    <tr><td>Market</td><td>India (Tamil Nadu)</td><td>Razorpay, INR</td></tr>
+    <tr><td>Language</td><td>English primary, Tamil optional</td><td>No launch picker; Tamil toggle in settings</td></tr>
+    <tr><td>Auth</td><td>Login only at purchase</td><td>Guest browse/search; OTP at checkout</td></tr>
+    <tr><td>Revenue</td><td>Commission per order</td><td>Category-wise % + Razorpay Route split payout</td></tr>
+    <tr><td>MVP scope</td><td>All 7 modules (phased)</td><td>Product + service-booking engines both</td></tr>
+    <tr><td>Flagship</td><td>Build-a-Temple crowdfunding</td><td>GoFundMe-style projects for revered saints/gurus</td></tr>
+    <tr><td>Donations</td><td>Deferred</td><td>General temple/annadhanam donations → later phase</td></tr>
+    <tr><td>Pay / fulfill</td><td>Full prepay + auto split</td><td>Vendor auto-paid minus commission</td></tr>
+    <tr><td>Base codebase</td><td>Fork cuckoo</td><td>Inherit payments, GST, categories, KYC, store</td></tr>
+  </table>
+</div></section>
+
+<!-- STACK -->
+<section id="stack"><div class="wrap">
+  <span class="kicker">Tech Stack</span>
+  <h2>Inherited from cuckoo</h2>
+  <div class="grid2">
+    <ul class="check">
+      <li><b>Mobile:</b> Flutter — buyer + seller apps + <code>temple_common</code></li>
+      <li><b>Web:</b> Next.js admin (Vercel / Cloudflare Pages)</li>
+      <li><b>Backend:</b> Supabase (Postgres + RLS + Realtime + Auth + Storage + Edge Functions)</li>
+      <li><b>Payments:</b> Razorpay (checkout + Route split + Subscriptions e-mandate)</li>
+    </ul>
+    <ul class="check">
+      <li><b>Push:</b> Firebase FCM</li>
+      <li><b>Media:</b> Cloudflare Stream (video) · Supabase/R2 (images)</li>
+      <li><b>Maps:</b> Google Maps / MapTiler</li>
+      <li><b>AI:</b> Claude API · <b>Shipping:</b> Shiprocket</li>
+    </ul>
+  </div>
+</div></section>
+
+<!-- FORK -->
+<section id="fork"><div class="wrap">
+  <span class="kicker">Fork Strategy</span>
+  <h2>Reuse from cuckoo, don't rebuild</h2>
+  <ul class="check">
+    <li>Razorpay Route split settlement + gateway-agnostic <code>payment_gateway_config</code></li>
+    <li>Category-wise commission (2–15%) model</li>
+    <li>One category engine for <b>products AND services</b> (<code>category_attribute_schemas</code>)</li>
+    <li><code>translations</code> table + category images/order — Burmese → <b>Tamil</b></li>
+    <li>GST / TCS / TDS: <code>gstin</code>+<code>pan</code>, <code>hsn_code</code>+<code>tax_rate</code>, invoicing</li>
+    <li>Seller KYC: GSTIN/PAN + penny-drop bank verification</li>
+    <li>Buyer + Seller + Admin scaffolds · App/Play Store checklists</li>
+  </ul>
+  <div class="callout"><b>Build from scratch:</b> temple categories (data), service availability calendars, donations, membership/savings, new-temple-build funds, temple-admin role, deity/festival banners, AI temple finder, reskin + Tamil l10n.</div>
+</div></section>
+
+<!-- FEATURE MATRIX -->
+<section id="features"><div class="wrap">
+  <span class="kicker">Feature Coverage Matrix</span>
+  <h2>Every feature → phase / screen / status</h2>
+  <div class="legend">
+    <span><span class="badge s-ok">✅ designed</span> visualized in proposal</span>
+    <span><span class="badge s-mid">🟡 specced</span> not yet drawn</span>
+    <span><span class="badge s-todo">⬜ to build</span> plumbing</span>
+  </div>
+
+  <h3>0 · Global shell</h3>
+  <table>
+    <tr><th>Feature</th><th>Phase</th><th>Status</th></tr>
+    <tr><td>Top nav + global search · English default, Tamil toggle</td><td>P0–P1</td><td><span class="badge s-ok">✅</span></td></tr>
+    <tr><td>Guest browsing — OTP login only at purchase</td><td>P0</td><td><span class="badge s-ok">✅</span></td></tr>
+    <tr><td>Festival banner + auto deity image</td><td>P4</td><td><span class="badge s-ok">✅</span></td></tr>
+    <tr><td>Temple list / directory</td><td>P3</td><td><span class="badge s-mid">🟡</span></td></tr>
+    <tr><td>Cart · order status · account · address (pincode)</td><td>P1</td><td><span class="badge s-ok">✅</span></td></tr>
+    <tr><td>Summary cards (orders, bookings, donations, revenue…)</td><td>P1–P3</td><td><span class="badge s-ok">✅</span></td></tr>
+  </table>
+
+  <h3>1–7 · Marketplace verticals</h3>
+  <table>
+    <tr><th>Vertical</th><th>Phase</th><th>Status</th><th>Note</th></tr>
+    <tr><td>🌸 Flowers Market</td><td>P1</td><td><span class="badge s-ok">✅</span></td><td>Bulk orders 🟡</td></tr>
+    <tr><td>🎉 Event Management (décor + performances + quotation)</td><td>P2</td><td><span class="badge s-ok">✅</span></td><td>Performances, social events 🟡</td></tr>
+    <tr><td>🔱 Temple & Poojas (homam + samskaras + priest)</td><td>P2</td><td><span class="badge s-ok">✅</span></td><td>Many sub-poojas & samskaras 🟡</td></tr>
+    <tr><td>🎁 Gift & Idol</td><td>P1</td><td><span class="badge s-ok">✅</span></td><td>House items 🟡</td></tr>
+    <tr><td>🚩 Temple Tourism (hotel/transport/food/packages)</td><td>P2</td><td><span class="badge s-ok">✅</span></td><td>Yatra dashboard, marriage hall 🟡</td></tr>
+    <tr><td>🔮 Astrologers</td><td>P2</td><td><span class="badge s-mid">🟡</span></td><td>Shares priest booking UI</td></tr>
+    <tr><td>🏛️ Temple Architect (Sthapathi)</td><td>P2</td><td><span class="badge s-mid">🟡</span></td><td>Quotation flow</td></tr>
+  </table>
+
+  <h3>8–13 · Platform & admin</h3>
+  <table>
+    <tr><th>Feature</th><th>Phase</th><th>Status</th></tr>
+    <tr><td>🛕 <b>Build-a-Temple crowdfunding (FLAGSHIP)</b> — figures directory, campaigns, sponsor, milestones, fund release</td><td>P3</td><td><span class="badge s-ok">✅</span></td></tr>
+    <tr><td>👥 Membership + savings funds + tiers</td><td>P3</td><td><span class="badge s-ok">✅</span></td></tr>
+    <tr><td>💰 General donations (temple/annadhanam/edu/medical + 80G)</td><td>P4+</td><td><span class="badge s-mid">🟡 deferred</span></td></tr>
+    <tr><td>💳 Wallet · payment methods · 🤖 AI assistant</td><td>P1–P4</td><td><span class="badge s-ok">✅</span></td></tr>
+    <tr><td>🛡️ Super Admin (approval, commission, revenue, refunds, payouts)</td><td>P1</td><td><span class="badge s-ok">✅</span></td></tr>
+    <tr><td>🏛️ Temple Admin · 🏪 Vendor Admin</td><td>P1–P3</td><td><span class="badge s-ok">✅</span></td></tr>
+  </table>
+
+  <h3>14 · Cross-cutting (plumbing)</h3>
+  <table>
+    <tr><th>Feature</th><th>Phase</th><th>Status</th></tr>
+    <tr><td>Phone OTP auth + role routing · RLS everywhere</td><td>P0+</td><td><span class="badge s-todo">⬜</span></td></tr>
+    <tr><td>Razorpay checkout + Route split + webhook · commission engine</td><td>P1</td><td><span class="badge s-todo">⬜</span></td></tr>
+    <tr><td>GST (HSN, invoices, TCS/TDS) · KYC (penny-drop)</td><td>P1</td><td><span class="badge s-todo">⬜</span></td></tr>
+    <tr><td>Cancellation/refund rules · FCM event map · l10n</td><td>P1–P2</td><td><span class="badge s-todo">⬜</span></td></tr>
+    <tr><td>Shipping (Shiprocket) + COD · store-readiness pages</td><td>P1/P5</td><td><span class="badge s-todo">⬜</span></td></tr>
+  </table>
+  <p class="note">Full granular list (every homam, flower type, astrology sub-service, sthapathi service) is in <code>FEATURE_MATRIX.md</code>.</p>
+</div></section>
+
+<!-- CATEGORY TREE -->
+<section id="categories"><div class="wrap">
+  <span class="kicker">Category Tree</span>
+  <h2>7 verticals → categories table</h2>
+  <p class="lead">Each top-level category = one <code>vendor_type</code>. Tamil names (<code>name_ta</code>) pending a Tamil reviewer.</p>
+  <table>
+    <tr><th>#</th><th>Vertical</th><th>vendor_type</th><th>fulfillment</th></tr>
+    <tr><td>1</td><td>🌸 Flowers Market</td><td class="mono">flower_seller</td><td><span class="tag">product</span></td></tr>
+    <tr><td>2</td><td>🎉 Event Management</td><td class="mono">decorator</td><td><span class="tag">quotation</span></td></tr>
+    <tr><td>3</td><td>🔱 Temple & Poojas</td><td class="mono">priest</td><td><span class="tag">booking</span></td></tr>
+    <tr><td>4</td><td>🎁 Gift & Idol</td><td class="mono">gift_seller</td><td><span class="tag">product</span></td></tr>
+    <tr><td>5</td><td>🚩 Temple Tourism</td><td class="mono">tourism_vendor</td><td><span class="tag">booking</span></td></tr>
+    <tr><td>6</td><td>🔮 Astrologers</td><td class="mono">astrologer</td><td><span class="tag">booking</span></td></tr>
+    <tr><td>7</td><td>🏛️ Temple Architect</td><td class="mono">sthapathi</td><td><span class="tag">quotation</span></td></tr>
+  </table>
+  <div class="callout"><b>Menu fixes applied:</b> BOOKS → Gift & Idol · Marriage Hall tagged venue · Poojas split from Samskaras · Events split décor/performances · Kumbabishekam disambiguated (ritual vs construction) · typos fixed.</div>
+  <h4>categories table</h4>
+<pre><span class="k">categories</span>(
+  id, parent_id (self FK), vendor_type,
+  name_en, name_ta, slug, icon, image_url,
+  fulfillment_type <span class="c">ENUM('product','booking','quotation')</span>,
+  display_order, region_priority, is_active
+)</pre>
+  <p class="note">Full leaf list in <code>CATEGORY_TREE.md</code>.</p>
+</div></section>
+
+<!-- DATA MODEL -->
+<section id="data"><div class="wrap">
+  <span class="kicker">Data Model</span>
+  <h2>Supabase schema (money = paise BIGINT, RLS on all)</h2>
+  <div class="grid2">
+    <div>
+      <h4>Identity & roles</h4>
+      <ul class="check"><li><code>profiles</code>, <code>addresses</code></li><li><code>vendor_profiles</code> (gstin, pan, kyc_status)</li><li><code>temples</code></li></ul>
+      <h4>Catalog</h4>
+      <ul class="check"><li><code>categories</code>, <code>listings</code> (price_paise, hsn_code, tax_rate)</li><li><code>listing_images</code>, <code>listing_attributes</code>, <code>reviews</code></li></ul>
+      <h4>Services</h4>
+      <ul class="check"><li><code>service_availability</code>, <code>bookings</code>, <code>quotations</code></li></ul>
+      <h4>Orders & payments</h4>
+      <ul class="check"><li><code>orders</code>, <code>order_items</code> (commission_paise)</li><li><code>payments</code>, <code>payouts</code> (route_transfer_id)</li><li><code>payment_gateway_config</code>, <code>platform_settings</code>, <code>refunds</code></li></ul>
+    </div>
+    <div>
+      <h4>Build-a-Temple (flagship)</h4>
+      <ul class="check"><li><code>spiritual_figures</code> (~500 saints/gurus)</li><li><code>temple_campaigns</code> (goal, raised, progress, status)</li><li><code>sponsorships</code> (wall of names), <code>campaign_milestones</code></li></ul>
+      <h4>Membership / funds</h4>
+      <ul class="check"><li><code>memberships</code>, <code>savings_funds</code>, <code>fund_contributions</code></li><li><code>donations</code> <span class="badge s-mid">deferred</span></li></ul>
+      <h4>Wallet & loyalty</h4>
+      <ul class="check"><li><code>wallets</code>, <code>wallet_transactions</code>, <code>loyalty</code></li></ul>
+      <h4>System</h4>
+      <ul class="check"><li><code>notifications</code>, <code>documents</code></li></ul>
+      <h4>Atomic functions</h4>
+      <ul class="check"><li><code>process_order_payment()</code> — split payouts</li><li><code>confirm_booking()</code> — lock slot</li><li><code>issue_refund()</code> · <code>contribute_to_fund()</code></li></ul>
+    </div>
+  </div>
+  <div class="callout"><b>RLS:</b> buyers see own orders · vendors see own listings/payouts · temple admins see own temple · super-admin via service role (server only).</div>
+  <p class="note">Full field list in <code>DATA_MODEL.md</code>.</p>
+</div></section>
+
+<!-- WORKFLOWS -->
+<section id="workflows"><div class="wrap">
+  <span class="kicker">Business Workflows</span>
+  <h2>16 end-to-end processes</h2>
+  <p class="lead">Happy path + failure + back-office. Full detail in <code>WORKFLOWS.md</code>.</p>
+
+  <h4>1 · Product order lifecycle</h4>
+<pre>cart → checkout → pay → <span class="k">paid</span> → notify seller
+  accept → pack → <span class="k">packed</span> → delivery → <span class="k">shipped</span> → <span class="k">delivered</span> → payout
+  <span class="c">fail: reject/out-of-stock → auto-refund · payment fail → expire 30m, release stock</span></pre>
+
+  <h4>2 · Service booking lifecycle</h4>
+<pre>pick service → slot → pay → <span class="k">confirmed</span> → provider confirms (slot locked)
+  → performed → <span class="k">completed</span> → payout
+  <span class="c">fail: no-show → reassign backup OR refund · cancel → per-category rule</span></pre>
+
+  <h4>3 · Quotation loop (events / sthapathi)</h4>
+<pre>requirement → <span class="k">requested</span> → vendor quote → <span class="k">sent</span>
+  → accept → advance pay → booking · (revise = loop) · (reject = closed)</pre>
+
+  <h4>4 · Payment → commission → payout settlement</h4>
+<pre>captured → split: vendor = price − commission(cat%) − gateway
+  held until fulfilled → payout <span class="k">pending</span> → settlement run (daily/weekly) → <span class="k">settled</span>
+  <span class="c">min payout threshold · GST 18% on commission · TCS/TDS · RBI escrow</span></pre>
+
+  <h4>5 · Refund / cancellation / dispute</h4>
+<pre>trigger → policy & fee check → issue_refund() (reverse payment + clawback payout + restock)
+  dispute: buyer raises → <span class="k">disputed</span> → admin reviews → refund / release</pre>
+
+  <div class="grid2">
+    <ul class="check">
+      <li><b>6</b> Vendor onboarding → KYC → approve/reject → suspend/deactivate</li>
+      <li><b>7</b> Customer support: ticket → in_progress → resolved → closed</li>
+      <li><b>10 🛕 FLAGSHIP</b> Build-a-Temple: Bala launches + advertises campaign → devotees sponsor → milestone proof → fund release</li>
+      <li><b>9</b> Savings fund → contribute → goal → apply/release</li>
+      <li><b>8</b> Donation → 80G → disburse <span class="badge s-mid">deferred</span></li>
+    </ul>
+    <ul class="check">
+      <li><b>11</b> Promotions / festival campaigns → boosted ranking → report</li>
+      <li><b>12</b> Multi-vendor order → split into per-vendor sub-orders</li>
+      <li><b>13</b> Delivery assignment (self / Shiprocket) · COD reconcile</li>
+      <li><b>14</b> Vendor performance → rating → warn/suspend/feature</li>
+      <li><b>15</b> Admin commission & settings · <b>16</b> Wallet top-up/spend/refund</li>
+    </ul>
+  </div>
+</div></section>
+
+<!-- REVIEW GATE -->
+<section id="gate"><div class="wrap">
+  <span class="kicker">Pre-launch Review Gate</span>
+  <h2>"Done" = 5 journeys × 9 gates</h2>
+  <div class="grid2">
+    <div><h4>Actor journeys (happy + failure)</h4>
+      <ul class="check"><li>Devotee / Buyer</li><li>Product seller</li><li>Service provider</li><li>Super Admin</li><li>Temple Admin</li></ul>
+    </div>
+    <div><h4>Cross-cutting gates</h4>
+      <ul class="check"><li>Money correctness (paise, commission, split)</li><li>Payment state machine (fail/refund/partial)</li><li>Cancellation rules per type</li><li>Auth & RLS on every table</li><li>Notification map · Localization</li><li>Empty/error states · Store-readiness · Perf</li></ul>
+    </div>
+  </div>
+</div></section>
+
+<!-- PHASES -->
+<section id="phases"><div class="wrap">
+  <span class="kicker">Build Phases</span>
+  <h2>Fork-first rollout</h2>
+  <table>
+    <tr><th>Phase</th><th>Delivery</th></tr>
+    <tr><td><b>P0</b> Foundation</td><td>Fork cuckoo → rename, strip, reskin, Burmese→Tamil, build runs</td></tr>
+    <tr><td><b>P1</b> Products</td><td>Flowers + Gift & Idol end-to-end with Razorpay</td></tr>
+    <tr><td><b>P2</b> Services</td><td>Poojas, Events, Astro, Tourism, Architect + availability calendars</td></tr>
+    <tr><td><b>P3</b> Community</td><td>Donations, Membership, Savings, Temple-admin, new-temple-build</td></tr>
+    <tr><td><b>P4</b> Smart</td><td>AI assistant, deity/festival display, loyalty</td></tr>
+    <tr><td><b>P5</b> Launch</td><td>Review gate + Play Store & App Store submission</td></tr>
+  </table>
+</div></section>
+
+<footer><div class="wrap">
+  <p><b>TempleOTemple — Build Master</b> · engineering source of truth<br>
+  Markdown set: MASTER_PLAN · FEATURE_MATRIX · CATEGORY_TREE · DATA_MODEL · WORKFLOWS</p>
+</div></footer>
+
+</body>
+</html>

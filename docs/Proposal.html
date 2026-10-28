@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>TempleOTemple — Proposal for Bala</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --saffron:#E8820C; --saffron-dark:#C96A00; --maroon:#7A1F1F; --gold:#C9A227;
+    --ink:#2A2117; --muted:#6B5E4E; --cream:#FBF6EE; --cream2:#F3E9D8;
+    --line:#E7D9C2; --green:#2E7D4F;
+    --shadow:0 10px 30px rgba(122,31,31,.08);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0; font-family:"Inter",system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+    color:var(--ink); background:var(--cream); line-height:1.6; font-size:16px;
+  }
+  h1,h2,h3{font-family:"Marcellus",Georgia,serif; font-weight:400; line-height:1.2; color:var(--maroon);}
+  h2{font-size:1.9rem; margin:0 0 .4rem;}
+  h3{font-size:1.2rem; margin:1.4rem 0 .5rem; color:var(--saffron-dark);}
+  p{margin:.5rem 0;}
+  a{color:var(--saffron-dark);}
+  .wrap{max-width:900px; margin:0 auto; padding:0 24px;}
+
+  /* STICKY SECTION NAV */
+  .topnav{position:sticky; top:0; z-index:100; background:rgba(122,31,31,.97); backdrop-filter:blur(8px); border-bottom:2px solid var(--gold); box-shadow:0 2px 12px rgba(0,0,0,.12);}
+  .topnav .bar{display:flex; align-items:center; gap:4px; overflow-x:auto; max-width:960px; margin:0 auto; padding:9px 20px; white-space:nowrap; scrollbar-width:thin;}
+  .topnav .bar::-webkit-scrollbar{height:5px;}
+  .topnav .bar::-webkit-scrollbar-thumb{background:rgba(255,255,255,.3); border-radius:9px;}
+  .topnav a{color:#fff; opacity:.82; text-decoration:none; font-size:.82rem; font-weight:500; padding:6px 11px; border-radius:7px; flex:0 0 auto; transition:.15s;}
+  .topnav a:hover{opacity:1; background:rgba(255,255,255,.16);}
+  .topnav a.nb-brand{font-family:"Marcellus",serif; font-size:.96rem; color:var(--gold); opacity:1; padding-left:0; margin-right:4px;}
+
+  /* HERO */
+  .hero{
+    background:
+      radial-gradient(1200px 400px at 80% -10%, rgba(201,162,39,.25), transparent 60%),
+      linear-gradient(135deg,var(--maroon),#9A2B2B 55%,var(--saffron-dark));
+    color:#fff; padding:72px 0 64px; position:relative; overflow:hidden;
+  }
+  .hero::after{
+    content:"🪔"; position:absolute; right:-10px; bottom:-20px; font-size:180px;
+    opacity:.12; transform:rotate(-8deg);
+  }
+  .hero .wrap{position:relative; z-index:1;}
+  .brand{font-family:"Marcellus",serif; font-size:2.8rem; color:#fff; margin:0; letter-spacing:.5px;}
+  .brand .o{color:var(--gold);}
+  .tagline{font-size:1.15rem; opacity:.95; margin:.3rem 0 1.4rem; max-width:620px;}
+  .hero-meta{display:flex; flex-wrap:wrap; gap:10px; margin-top:18px;}
+  .chip{
+    background:rgba(255,255,255,.14); border:1px solid rgba(255,255,255,.3);
+    padding:6px 14px; border-radius:999px; font-size:.85rem; font-weight:500; backdrop-filter:blur(4px);
+  }
+  .prepared{margin-top:26px; font-size:.95rem; opacity:.9;}
+  .prepared strong{color:var(--gold);}
+
+  /* SECTIONS */
+  section{padding:40px 0; border-bottom:1px solid var(--line); scroll-margin-top:58px;}
+  .kicker{
+    display:inline-block; font-size:.72rem; letter-spacing:.18em; text-transform:uppercase;
+    color:var(--saffron-dark); font-weight:700; margin-bottom:6px;
+  }
+  .lead{font-size:1.1rem; color:var(--muted);}
+
+  /* CARDS / GRID */
+  .grid{display:grid; gap:16px; margin-top:18px;}
+  .g2{grid-template-columns:repeat(2,1fr);}
+  .g3{grid-template-columns:repeat(3,1fr);}
+  .card{
+    background:#fff; border:1px solid var(--line); border-radius:14px; padding:18px 18px;
+    box-shadow:var(--shadow);
+  }
+  .card .ic{font-size:1.6rem; display:block; margin-bottom:6px;}
+  .card h3{margin:.1rem 0 .3rem; color:var(--maroon); font-size:1.05rem;}
+  .card p{margin:0; font-size:.92rem; color:var(--muted);}
+
+  /* TABLE */
+  table{width:100%; border-collapse:collapse; margin-top:14px; background:#fff; border-radius:12px; overflow:hidden; box-shadow:var(--shadow);}
+  th,td{text-align:left; padding:12px 14px; font-size:.92rem; border-bottom:1px solid var(--line); vertical-align:top;}
+  th{background:var(--cream2); color:var(--maroon); font-weight:600; font-family:"Inter";}
+  tr:last-child td{border-bottom:none;}
+  .yes{color:var(--green); font-weight:600;}
+
+  /* FLOW */
+  .flow{background:#fff; border:1px solid var(--line); border-radius:14px; padding:18px 20px; margin-top:16px; box-shadow:var(--shadow);}
+  .flow h3{margin-top:0;}
+  .steps{display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin-top:8px;}
+  .step{
+    background:var(--cream2); border:1px solid var(--line); border-radius:10px;
+    padding:8px 12px; font-size:.86rem; font-weight:500; color:var(--ink);
+  }
+  .arrow{color:var(--saffron); font-weight:700;}
+
+  /* MODULE LIST */
+  .mods{display:grid; grid-template-columns:repeat(2,1fr); gap:12px; margin-top:16px;}
+  .mod{display:flex; gap:12px; background:#fff; border:1px solid var(--line); border-radius:12px; padding:14px; box-shadow:var(--shadow);}
+  .mod .em{font-size:1.5rem;}
+  .mod b{color:var(--maroon);}
+  .mod span{display:block; font-size:.86rem; color:var(--muted);}
+
+  /* PHASES */
+  .phase{display:flex; gap:14px; align-items:flex-start; padding:12px 0; border-bottom:1px dashed var(--line);}
+  .phase:last-child{border-bottom:none;}
+  .pnum{
+    flex:0 0 auto; width:38px; height:38px; border-radius:50%;
+    background:linear-gradient(135deg,var(--saffron),var(--saffron-dark)); color:#fff;
+    display:flex; align-items:center; justify-content:center; font-weight:700; font-family:"Marcellus",serif;
+  }
+  .phase b{color:var(--maroon);}
+  .phase p{margin:2px 0 0; font-size:.9rem; color:var(--muted);}
+
+  /* CALLOUT */
+  .callout{
+    background:linear-gradient(135deg,var(--cream2),#fff); border-left:5px solid var(--gold);
+    border-radius:0 12px 12px 0; padding:18px 22px; margin-top:16px; box-shadow:var(--shadow);
+  }
+  .callout h3{margin-top:0; color:var(--maroon);}
+
+  /* checklist */
+  ul.check{list-style:none; padding:0; margin:14px 0 0;}
+  ul.check li{padding:8px 0 8px 30px; position:relative; border-bottom:1px solid var(--line);}
+  ul.check li:last-child{border-bottom:none;}
+  ul.check li::before{content:"✓"; position:absolute; left:4px; top:8px; color:var(--green); font-weight:700;}
+
+  /* NEXT STEPS */
+  .next{background:linear-gradient(135deg,var(--maroon),#9A2B2B); color:#fff; border-radius:16px; padding:28px; margin-top:18px;}
+  .next h2{color:#fff;}
+  .next ol{margin:10px 0 0; padding-left:20px;}
+  .next li{margin:8px 0;}
+
+  footer{padding:30px 0 50px; text-align:center; color:var(--muted); font-size:.9rem;}
+
+  .note{font-size:.82rem; color:var(--muted); font-style:italic; margin-top:8px;}
+
+  @media (max-width:680px){
+    .g2,.g3,.mods{grid-template-columns:1fr;}
+    .brand{font-size:2.1rem;} h2{font-size:1.5rem;}
+  }
+  @media print{
+    body{background:#fff; font-size:12px;}
+    .hero{padding:40px 0;} .hero::after{display:none;}
+    .card,.flow,table,.next,.callout{box-shadow:none;}
+    section{page-break-inside:avoid; padding:22px 0;}
+    .next{background:#7A1F1F !important; -webkit-print-color-adjust:exact; print-color-adjust:exact;}
+    .hero{-webkit-print-color-adjust:exact; print-color-adjust:exact;}
+    .phone,.browser{box-shadow:none;}
+    .topnav{display:none;}
+  }
+
+  /* ===== APP MOCKUPS ===== */
+  .phones{display:flex; flex-wrap:wrap; gap:26px; justify-content:center; margin-top:20px;}
+  .device{flex:0 0 auto;}
+  .phone{width:232px; background:#1c1c1e; border-radius:32px; padding:9px; box-shadow:0 18px 40px rgba(122,31,31,.18);}
+  .phone .screen{position:relative; background:var(--cream); border-radius:24px; overflow:hidden; height:466px; display:flex; flex-direction:column; font-size:11px;}
+  .phone .notch{position:absolute; top:0; left:50%; transform:translateX(-50%); width:84px; height:15px; background:#1c1c1e; border-radius:0 0 12px 12px; z-index:5;}
+  .cap{text-align:center; font-weight:600; color:var(--maroon); font-size:.82rem; margin-top:10px;}
+  .m-bar{background:linear-gradient(135deg,var(--maroon),var(--saffron-dark)); color:#fff; padding:17px 12px 10px; -webkit-print-color-adjust:exact; print-color-adjust:exact;}
+  .m-bar .t{font-family:"Marcellus",serif; font-size:14px;}
+  .m-search{background:rgba(255,255,255,.92); color:var(--muted); border-radius:8px; padding:6px 9px; margin-top:8px; font-size:10px;}
+  .m-body{padding:10px; overflow:hidden; flex:1;}
+  .m-banner{background:linear-gradient(120deg,var(--gold),var(--saffron)); color:#fff; border-radius:10px; padding:12px; font-family:"Marcellus",serif; font-size:12px; -webkit-print-color-adjust:exact; print-color-adjust:exact;}
+  .m-banner small{display:block; font-family:"Inter"; font-size:9px; opacity:.95; margin-top:3px;}
+  .m-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:7px; margin-top:10px;}
+  .m-cat{background:#fff; border:1px solid var(--line); border-radius:9px; padding:8px 4px; text-align:center;}
+  .m-cat .e{font-size:16px; display:block;}
+  .m-cat span{font-size:8px; color:var(--ink); display:block; margin-top:3px; line-height:1.15;}
+  .m-nav{display:flex; justify-content:space-around; padding:9px 0; border-top:1px solid var(--line); background:#fff;}
+  .m-nav span{font-size:14px; opacity:.5;}
+  .m-nav span.on{opacity:1;}
+  .m-card{background:#fff; border:1px solid var(--line); border-radius:10px; padding:8px; margin-bottom:8px; display:flex; gap:8px; align-items:center;}
+  .m-thumb{width:42px; height:42px; border-radius:8px; background:linear-gradient(135deg,var(--cream2),var(--gold)); display:flex; align-items:center; justify-content:center; font-size:20px; flex:0 0 auto;}
+  .m-card b{font-size:10px; color:var(--ink); display:block;}
+  .m-card .pr{color:var(--saffron-dark); font-weight:700; font-size:10px;}
+  .m-add{margin-left:auto; background:var(--saffron); color:#fff; border-radius:6px; padding:4px 9px; font-size:9px; font-weight:600; flex:0 0 auto;}
+  .m-hero2{background:linear-gradient(135deg,var(--maroon),var(--saffron-dark)); color:#fff; border-radius:10px; padding:12px; text-align:center; -webkit-print-color-adjust:exact; print-color-adjust:exact;}
+  .m-hero2 .e{font-size:30px;}
+  .m-label{font-size:9px; color:var(--muted); margin:11px 0 5px; font-weight:700; text-transform:uppercase; letter-spacing:.06em;}
+  .m-chips{display:flex; gap:5px; flex-wrap:wrap;}
+  .m-chip{background:#fff; border:1px solid var(--line); border-radius:6px; padding:4px 8px; font-size:9px;}
+  .m-chip.on{background:var(--saffron); color:#fff; border-color:var(--saffron);}
+  .m-cta{background:linear-gradient(135deg,var(--saffron),var(--saffron-dark)); color:#fff; text-align:center; border-radius:9px; padding:9px; font-weight:600; font-size:11px; margin-top:12px; -webkit-print-color-adjust:exact; print-color-adjust:exact;}
+  .m-row{display:flex; justify-content:space-between; font-size:10px; padding:6px 0; border-bottom:1px dashed var(--line);}
+  .m-total{display:flex; justify-content:space-between; font-weight:700; color:var(--maroon); font-size:11px; padding:7px 0;}
+  .m-pay{border:1px solid var(--line); border-radius:8px; padding:7px 9px; font-size:10px; margin-top:6px;}
+  .m-pay.on{border-color:var(--saffron); background:var(--cream2);}
+  /* browser frame */
+  .browser{max-width:760px; margin:28px auto 0; background:#fff; border:1px solid var(--line); border-radius:12px; overflow:hidden; box-shadow:var(--shadow);}
+  .b-bar{background:var(--cream2); padding:9px 12px; display:flex; align-items:center; gap:6px; border-bottom:1px solid var(--line);}
+  .dot{width:10px; height:10px; border-radius:50%; flex:0 0 auto;}
+  .b-url{background:#fff; border:1px solid var(--line); border-radius:6px; padding:4px 10px; font-size:11px; color:var(--muted); margin-left:8px; flex:1;}
+  .b-body{display:flex; min-height:290px;}
+  .b-side{width:150px; background:var(--maroon); color:#fff; padding:14px 10px; font-size:11px; -webkit-print-color-adjust:exact; print-color-adjust:exact;}
+  .b-side .bi{padding:7px 8px; border-radius:7px; margin-bottom:3px; opacity:.85;}
+  .b-side .bi.on{background:rgba(255,255,255,.16); opacity:1; font-weight:600;}
+  .b-main{flex:1; padding:16px;}
+  .b-stats{display:grid; grid-template-columns:repeat(3,1fr); gap:10px;}
+  .b-stat{background:var(--cream); border:1px solid var(--line); border-radius:10px; padding:12px;}
+  .b-stat .n{font-family:"Marcellus",serif; font-size:18px; color:var(--saffron-dark);}
+  .b-stat .l{font-size:10px; color:var(--muted);}
+  .b-tbl{width:100%; border-collapse:collapse; margin-top:14px; box-shadow:none;}
+  .b-tbl th,.b-tbl td{font-size:10px; padding:7px 8px; border-bottom:1px solid var(--line);}
+  .b-tbl th{background:var(--cream2);}
+  .badge{padding:2px 8px; border-radius:999px; font-size:9px; font-weight:600;}
+  .badge.ok{background:#E3F2E8; color:var(--green);}
+  .badge.wait{background:#FDF0DD; color:var(--saffron-dark);}
+  @media (max-width:680px){.b-body{flex-direction:column;} .b-side{width:100%; display:flex; flex-wrap:wrap; gap:4px;} .b-side .bi{flex:1 1 auto;}}
+</style>
+</head>
+<body>
+
+<!-- STICKY SECTION NAV -->
+<nav class="topnav">
+  <div class="bar">
+    <a href="#top" class="nb-brand">🪔 TempleOTemple</a>
+    <a href="#summary">Overview</a>
+    <a href="#opportunity">Opportunity</a>
+    <a href="#solution">Solution</a>
+    <a href="#temple">Build a Temple</a>
+    <a href="#roles">Roles</a>
+    <a href="#flows">Journeys</a>
+    <a href="#preview">App Preview</a>
+    <a href="#modules">Modules</a>
+    <a href="#revenue">Business</a>
+    <a href="#success">Success</a>
+    <a href="#operations">Operations</a>
+    <a href="#runs">How it Runs</a>
+    <a href="#availability">Availability</a>
+    <a href="#tech">Technology</a>
+    <a href="#phases">Plan</a>
+    <a href="#need">Setup</a>
+    <a href="#costs">Costs</a>
+    <a href="#next">Next Steps</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero" id="top">
+  <div class="wrap">
+    <h1 class="brand">Temple<span class="o">O</span>Temple</h1>
+    <p class="tagline">One trusted app for the entire temple economy — flowers, poojas, decoration, gifts, tourism, astrology &amp; temple architecture.</p>
+    <div class="hero-meta">
+      <span class="chip">📱 Android &amp; iOS</span>
+      <span class="chip">💻 Web Dashboard</span>
+      <span class="chip">🌐 English · Tamil option</span>
+      <span class="chip">💳 UPI · Card · Net-banking</span>
+    </div>
+    <p class="prepared">Project Proposal prepared for <strong>Bala</strong> &nbsp;·&nbsp; Market: India (Tamil Nadu)</p>
+  </div>
+</header>
+
+<!-- EXEC SUMMARY -->
+<section id="summary"><div class="wrap">
+  <span class="kicker">Executive Summary</span>
+  <h2>A single marketplace for everything a temple and a devotee need</h2>
+  <p class="lead">TempleOTemple brings every temple-related product and service into one trusted app — so devotees order and book in one place, vendors gain customers and automatic payments, and <b>you earn a commission on every transaction</b>.</p>
+  <p>The platform is built on a proven, battle-tested marketplace foundation already designed for India — so we launch <b>faster, at lower cost, and with lower risk</b> than building from scratch.</p>
+</div></section>
+
+<!-- OPPORTUNITY -->
+<section id="opportunity"><div class="wrap">
+  <span class="kicker">The Opportunity</span>
+  <h2>Temple commerce is large, repeat, and fragmented</h2>
+  <div class="grid g3">
+    <div class="card"><span class="ic">🧩</span><h3>Fragmented today</h3><p>Devotees call many vendors, haggle, and have no single trusted source.</p></div>
+    <div class="card"><span class="ic">📴</span><h3>Vendors offline</h3><p>Flower sellers, priests &amp; decorators are hard to discover and struggle with payments.</p></div>
+    <div class="card"><span class="ic">🔁</span><h3>Seasonal demand</h3><p>Festivals, weddings &amp; ceremonies create repeat demand — ideal for a marketplace.</p></div>
+  </div>
+  <div class="callout"><h3>The vision</h3><p>TempleOTemple makes <b>you the trusted digital marketplace for the entire temple economy of Tamil Nadu — and beyond.</b></p></div>
+</div></section>
+
+<!-- SOLUTION -->
+<section id="solution"><div class="wrap">
+  <span class="kicker">Solution Overview</span>
+  <h2>One platform, delivered on every screen your customers use</h2>
+  <table>
+    <tr><th>Channel</th><th>Who uses it</th><th>What they do</th></tr>
+    <tr><td><b>Buyer App</b><br>Android + iOS</td><td>Devotees</td><td>Browse, order, book, pay &amp; track</td></tr>
+    <tr><td><b>Seller App</b><br>Android + iOS</td><td>Vendors</td><td>List items, manage orders/bookings, get paid</td></tr>
+    <tr><td><b>Web Admin</b><br>Browser</td><td>You &amp; your team</td><td>Approve vendors, set commission, view revenue</td></tr>
+  </table>
+  <p class="note">English by default with a Tamil option; UPI / card / net-banking payments. Browsing is open — login only when you buy.</p>
+</div></section>
+
+<!-- BUILD A TEMPLE (FLAGSHIP) -->
+<section id="temple"><div class="wrap">
+  <span class="kicker">Flagship Vision</span>
+  <h2>🛕 Build a Temple — crowdfunding for devotion</h2>
+  <p class="lead">Across South India, devotees revere hundreds of saints and gurus — such as Shirdi Sai Baba and Ramana Maharshi — as divine. Many dream of building a temple in their honour.</p>
+  <p>TempleOTemple brings this into one trusted place: a <b>GoFundMe-style platform</b> where believers come together to sponsor the building of temples for the spiritual figures they love. Bala launches and promotes each campaign; devotees fund it collectively.</p>
+  <div class="grid g3">
+    <div class="card"><span class="ic">🙏</span><h3>~500 revered figures</h3><p>A directory of saints, gurus &amp; incarnations venerated across the southern states.</p></div>
+    <div class="card"><span class="ic">💝</span><h3>Sponsor together</h3><p>Any devotee can contribute — from ₹501 to major sponsorship — toward a chosen temple.</p></div>
+    <div class="card"><span class="ic">📊</span><h3>Transparent progress</h3><p>Live funding goal, construction milestones, documents &amp; sponsor recognition.</p></div>
+  </div>
+  <div class="callout"><b>Why it's powerful:</b> it turns devotion into action — and gives Bala a flagship, mission-driven reason for devotees to join the app, then shop the whole temple marketplace around it.</div>
+</div></section>
+
+<!-- ROLES -->
+<section id="roles"><div class="wrap">
+  <span class="kicker">Who Uses It</span>
+  <h2>Five roles, one connected ecosystem</h2>
+  <div class="grid g3">
+    <div class="card"><span class="ic">🙏</span><h3>Devotee / Buyer</h3><p>Orders products &amp; books services for occasions.</p></div>
+    <div class="card"><span class="ic">🌸</span><h3>Product Seller</h3><p>Flower &amp; gift shops — physical delivery.</p></div>
+    <div class="card"><span class="ic">🔱</span><h3>Service Provider</h3><p>Priests, decorators, astrologers, hotels, sthapathis — booking based.</p></div>
+    <div class="card"><span class="ic">🛡️</span><h3>Super Admin (You)</h3><p>Approve vendors, set commission, monitor money &amp; reports.</p></div>
+    <div class="card"><span class="ic">🏛️</span><h3>Temple Admin</h3><p>Manages a temple's profile, events, donations &amp; volunteers.</p></div>
+  </div>
+</div></section>
+
+<!-- APP FLOWS -->
+<section id="flows"><div class="wrap">
+  <span class="kicker">User Experience</span>
+  <h2>How it works — end-to-end journeys</h2>
+
+  <div class="flow"><h3>🙏 Devotee / Buyer</h3><div class="steps">
+    <span class="step">Open app · English</span><span class="arrow">→</span>
+    <span class="step">Browse / search category</span><span class="arrow">→</span>
+    <span class="step">View detail &amp; reviews</span><span class="arrow">→</span>
+    <span class="step">Add to cart / book date</span><span class="arrow">→</span>
+    <span class="step">Login with OTP · only to purchase</span><span class="arrow">→</span>
+    <span class="step">Pay (UPI/Card)</span><span class="arrow">→</span>
+    <span class="step">Confirm &amp; track</span><span class="arrow">→</span>
+    <span class="step">Receive &amp; rate</span>
+  </div>
+  <p class="note">No login needed to browse. English is default; a Tamil toggle is in settings.</p></div>
+
+  <div class="flow"><h3>🌸 Product Seller (Flowers, Gift &amp; Idol)</h3><div class="steps">
+    <span class="step">Register</span><span class="arrow">→</span>
+    <span class="step">KYC (GSTIN/PAN/bank)</span><span class="arrow">→</span>
+    <span class="step">Admin approves</span><span class="arrow">→</span>
+    <span class="step">List products</span><span class="arrow">→</span>
+    <span class="step">Receive order</span><span class="arrow">→</span>
+    <span class="step">Pack &amp; deliver</span><span class="arrow">→</span>
+    <span class="step">Auto payout (minus commission)</span>
+  </div></div>
+
+  <div class="flow"><h3>🔱 Service Provider (Poojas, Events, Astrology, Tourism, Architect)</h3><div class="steps">
+    <span class="step">Register &amp; KYC</span><span class="arrow">→</span>
+    <span class="step">Set services + availability</span><span class="arrow">→</span>
+    <span class="step">Receive booking</span><span class="arrow">→</span>
+    <span class="step">Confirm / quote</span><span class="arrow">→</span>
+    <span class="step">Perform service</span><span class="arrow">→</span>
+    <span class="step">Auto payout</span>
+  </div></div>
+
+  <div class="flow"><h3>🛡️ Super Admin (You)</h3><div class="steps">
+    <span class="step">Login to dashboard</span><span class="arrow">→</span>
+    <span class="step">Approve vendors</span><span class="arrow">→</span>
+    <span class="step">Set commission %</span><span class="arrow">→</span>
+    <span class="step">Monitor orders &amp; revenue</span><span class="arrow">→</span>
+    <span class="step">Handle refunds</span><span class="arrow">→</span>
+    <span class="step">View reports</span>
+  </div></div>
+</div></section>
+
+<!-- APP PREVIEW -->
+<section id="preview"><div class="wrap">
+  <span class="kicker">App Preview</span>
+  <h2>A glimpse of the experience</h2>
+  <p class="lead">Representative mockups of the devotee app and your admin dashboard. The final design will be fully branded to TempleOTemple, in Tamil &amp; English.</p>
+
+  <div class="phones">
+    <!-- HOME -->
+    <div class="device">
+      <div class="phone"><div class="screen">
+        <div class="notch"></div>
+        <div class="m-bar"><div class="t">🙏 TempleOTemple</div><div class="m-search">🔍 Search flowers, poojas, gifts…</div></div>
+        <div class="m-body">
+          <div class="m-banner">Aadi Festival Special<small>Order archanai kits &amp; book poojas</small></div>
+          <div class="m-grid">
+            <div class="m-cat"><span class="e">🌸</span><span>Flowers</span></div>
+            <div class="m-cat"><span class="e">🎉</span><span>Events</span></div>
+            <div class="m-cat"><span class="e">🔱</span><span>Poojas</span></div>
+            <div class="m-cat"><span class="e">🎁</span><span>Gifts</span></div>
+            <div class="m-cat"><span class="e">🚩</span><span>Tourism</span></div>
+            <div class="m-cat"><span class="e">🔮</span><span>Astrology</span></div>
+            <div class="m-cat"><span class="e">🏛️</span><span>Architect</span></div>
+            <div class="m-cat"><span class="e">🛕</span><span>Build Temple</span></div>
+            <div class="m-cat"><span class="e">➕</span><span>More</span></div>
+          </div>
+        </div>
+        <div class="m-nav"><span class="on">🏠</span><span>🔍</span><span>🛒</span><span>👤</span></div>
+      </div></div>
+      <div class="cap">Home</div>
+    </div>
+
+    <!-- FLOWERS LISTING -->
+    <div class="device">
+      <div class="phone"><div class="screen">
+        <div class="notch"></div>
+        <div class="m-bar"><div class="t">🌸 Flowers Market</div><div class="m-search">🔍 Jasmine, rose, garland…</div></div>
+        <div class="m-body">
+          <div class="m-card"><div class="m-thumb">🌼</div><div><b>Temple Archanai Kit</b><span class="pr">₹149</span></div><div class="m-add">Add</div></div>
+          <div class="m-card"><div class="m-thumb">🌺</div><div><b>Festival Flower Package</b><span class="pr">₹499</span></div><div class="m-add">Add</div></div>
+          <div class="m-card"><div class="m-thumb">💐</div><div><b>Wedding Flower Kit</b><span class="pr">₹1,299</span></div><div class="m-add">Add</div></div>
+          <div class="m-card"><div class="m-thumb">🌸</div><div><b>Jasmine Garland · 1m</b><span class="pr">₹99</span></div><div class="m-add">Add</div></div>
+        </div>
+        <div class="m-nav"><span>🏠</span><span class="on">🔍</span><span>🛒</span><span>👤</span></div>
+      </div></div>
+      <div class="cap">Browse &amp; Order</div>
+    </div>
+
+    <!-- POOJA BOOKING -->
+    <div class="device">
+      <div class="phone"><div class="screen">
+        <div class="notch"></div>
+        <div class="m-bar"><div class="t">🔱 Ganapathi Homam</div></div>
+        <div class="m-body">
+          <div class="m-hero2"><span class="e">🪔</span><div style="font-family:'Marcellus',serif; font-size:12px; margin-top:4px;">Book a Priest</div></div>
+          <div class="m-label">Select date</div>
+          <div class="m-chips"><span class="m-chip">12 Oct</span><span class="m-chip on">15 Oct</span><span class="m-chip">18 Oct</span></div>
+          <div class="m-label">Time slot</div>
+          <div class="m-chips"><span class="m-chip on">6:00 AM</span><span class="m-chip">8:00 AM</span><span class="m-chip">5:00 PM</span></div>
+          <div class="m-cta">Book for ₹2,500</div>
+        </div>
+        <div class="m-nav"><span>🏠</span><span>🔍</span><span>🛒</span><span>👤</span></div>
+      </div></div>
+      <div class="cap">Book a Service</div>
+    </div>
+
+    <!-- CHECKOUT -->
+    <div class="device">
+      <div class="phone"><div class="screen">
+        <div class="notch"></div>
+        <div class="m-bar"><div class="t">🛒 Checkout</div></div>
+        <div class="m-body">
+          <div class="m-row"><span>Temple Archanai Kit</span><span>₹149</span></div>
+          <div class="m-row"><span>Ganapathi Homam</span><span>₹2,500</span></div>
+          <div class="m-row"><span>Delivery</span><span>₹40</span></div>
+          <div class="m-total"><span>Total</span><span>₹2,689</span></div>
+          <div class="m-label">Payment method</div>
+          <div class="m-pay on">🟣 UPI — GPay / PhonePe / Paytm</div>
+          <div class="m-pay">💳 Credit / Debit Card</div>
+          <div class="m-pay">🏦 Net-banking</div>
+          <div class="m-cta">Pay ₹2,689 securely</div>
+        </div>
+      </div></div>
+      <div class="cap">Secure Payment</div>
+    </div>
+  </div>
+
+  <div class="phones">
+    <!-- SELLER ORDER ACCEPT -->
+    <div class="device">
+      <div class="phone"><div class="screen">
+        <div class="notch"></div>
+        <div class="m-bar"><div class="t">🌸 Sri Flowers · Seller</div></div>
+        <div class="m-body">
+          <div class="m-hero2" style="background:linear-gradient(135deg,var(--green),#1f6b42);"><span class="e">🔔</span><div style="font-family:'Marcellus',serif; font-size:12px; margin-top:4px;">New Order Received</div></div>
+          <div class="m-card" style="margin-top:12px;"><div class="m-thumb">🌼</div><div><b>Temple Archanai Kit × 2</b><span class="pr">₹298</span></div></div>
+          <div class="m-row"><span>Buyer</span><span>Priya · Mylapore</span></div>
+          <div class="m-row"><span>Deliver by</span><span>Today 5 PM</span></div>
+          <div class="m-total"><span>You earn</span><span>₹268</span></div>
+          <div class="m-cta" style="margin-top:10px;">✓ Accept Order</div>
+          <div class="m-pay" style="text-align:center; margin-top:6px; color:var(--muted);">Decline</div>
+        </div>
+        <div class="m-nav"><span class="on">📋</span><span>📦</span><span>💸</span><span>👤</span></div>
+      </div></div>
+      <div class="cap">Seller — Accept Order</div>
+    </div>
+
+    <!-- ORDER TRACKING -->
+    <div class="device">
+      <div class="phone"><div class="screen">
+        <div class="notch"></div>
+        <div class="m-bar"><div class="t">📦 Order #10482</div></div>
+        <div class="m-body">
+          <div class="m-card"><div class="m-thumb">🌼</div><div><b>Temple Archanai Kit</b><span class="pr">Arriving today, 5 PM</span></div></div>
+          <div class="m-label">Delivery status</div>
+          <div style="display:flex; flex-direction:column;">
+            <div style="display:flex; gap:9px; align-items:center; padding:6px 0;"><span style="width:15px;height:15px;border-radius:50%;background:var(--green);color:#fff;font-size:8px;display:flex;align-items:center;justify-content:center;">✓</span><span style="font-size:10px;">Order confirmed</span></div>
+            <div style="display:flex; gap:9px; align-items:center; padding:6px 0;"><span style="width:15px;height:15px;border-radius:50%;background:var(--green);color:#fff;font-size:8px;display:flex;align-items:center;justify-content:center;">✓</span><span style="font-size:10px;">Packed by seller</span></div>
+            <div style="display:flex; gap:9px; align-items:center; padding:6px 0;"><span style="width:15px;height:15px;border-radius:50%;background:var(--saffron);color:#fff;font-size:8px;display:flex;align-items:center;justify-content:center;">●</span><span style="font-size:10px; font-weight:600;">Out for delivery</span></div>
+            <div style="display:flex; gap:9px; align-items:center; padding:6px 0; opacity:.5;"><span style="width:15px;height:15px;border-radius:50%;background:#ccc;"></span><span style="font-size:10px;">Delivered</span></div>
+          </div>
+          <div class="m-cta" style="margin-top:8px; background:#fff; color:var(--saffron-dark); border:1px solid var(--saffron);">📞 Call delivery partner</div>
+        </div>
+        <div class="m-nav"><span>🏠</span><span>🔍</span><span class="on">📦</span><span>👤</span></div>
+      </div></div>
+      <div class="cap">Track Order</div>
+    </div>
+
+    <!-- BUILD A TEMPLE (CROWDFUNDING) -->
+    <div class="device">
+      <div class="phone"><div class="screen">
+        <div class="notch"></div>
+        <div class="m-bar"><div class="t">🛕 Build a Temple</div></div>
+        <div class="m-body">
+          <div class="m-hero2"><span class="e">🙏</span><div style="font-family:'Marcellus',serif; font-size:12px; margin-top:4px;">Shirdi Sai Baba Temple · Madurai</div></div>
+          <div style="font-size:10px; color:var(--muted); margin-top:10px;">₹28 L raised of ₹50 L</div>
+          <div style="background:var(--cream2);border-radius:999px;height:10px;margin-top:5px;overflow:hidden;"><div style="width:56%;height:100%;background:linear-gradient(90deg,var(--saffron),var(--gold));"></div></div>
+          <div class="m-row" style="margin-top:8px;"><span>🙌 Sponsors</span><span>1,240</span></div>
+          <div class="m-row"><span>🏗️ Est. completion</span><span>2027</span></div>
+          <div class="m-label">Sponsor amount</div>
+          <div class="m-chips"><span class="m-chip">₹501</span><span class="m-chip on">₹1,001</span><span class="m-chip">₹5,001</span><span class="m-chip">Other</span></div>
+          <div class="m-cta">Sponsor this Temple</div>
+          <div class="m-pay" style="text-align:center; margin-top:6px; color:var(--muted); border:none;">📜 Updates + your name on the wall</div>
+        </div>
+        <div class="m-nav"><span>🏠</span><span>🔍</span><span>🛒</span><span class="on">👤</span></div>
+      </div></div>
+      <div class="cap">Build a Temple · Crowdfunding</div>
+    </div>
+  </div>
+
+  <div class="phones">
+    <!-- GIFT & IDOL -->
+    <div class="device">
+      <div class="phone"><div class="screen">
+        <div class="notch"></div>
+        <div class="m-bar"><div class="t">🎁 Gift &amp; Idol</div><div class="m-search">🔍 Idols, brass, books…</div></div>
+        <div class="m-body">
+          <div class="m-card"><div class="m-thumb">🐘</div><div><b>Vinayagar Brass Idol</b><span class="pr">₹2,150</span></div><div class="m-add">Add</div></div>
+          <div class="m-card"><div class="m-thumb">🪔</div><div><b>Kuthu Vilakku (pair)</b><span class="pr">₹1,450</span></div><div class="m-add">Add</div></div>
+          <div class="m-card"><div class="m-thumb">📿</div><div><b>Rudraksha Mala</b><span class="pr">₹399</span></div><div class="m-add">Add</div></div>
+          <div class="m-card"><div class="m-thumb">🎁</div><div><b>Return Gift Set · ×25</b><span class="pr">₹2,999</span></div><div class="m-add">Add</div></div>
+        </div>
+        <div class="m-nav"><span>🏠</span><span class="on">🔍</span><span>🛒</span><span>👤</span></div>
+      </div></div>
+      <div class="cap">Gift &amp; Idol</div>
+    </div>
+
+    <!-- EVENT DECORATOR QUOTE -->
+    <div class="device">
+      <div class="phone"><div class="screen">
+        <div class="notch"></div>
+        <div class="m-bar"><div class="t">🎉 Wedding Decoration</div></div>
+        <div class="m-body">
+          <div class="m-hero2" style="background:linear-gradient(135deg,#8e24aa,#c2185b);"><span class="e">💐</span><div style="font-family:'Marcellus',serif;font-size:12px;margin-top:4px;">Mandapam Décor</div></div>
+          <div class="m-label">Portfolio</div>
+          <div style="display:flex;gap:6px;"><div class="m-thumb" style="flex:1;height:46px;">🏵️</div><div class="m-thumb" style="flex:1;height:46px;">🌼</div><div class="m-thumb" style="flex:1;height:46px;">✨</div></div>
+          <div class="m-label">Tell us your event</div>
+          <div style="background:#fff;border:1px solid var(--line);border-radius:7px;padding:8px 9px;font-size:10px;color:var(--muted);">Date · venue · budget…</div>
+          <div class="m-cta">Request Quotation</div>
+        </div>
+        <div class="m-nav"><span>🏠</span><span>🔍</span><span>🛒</span><span>👤</span></div>
+      </div></div>
+      <div class="cap">Decorator — Get Quote</div>
+    </div>
+
+    <!-- YATRA PACKAGE -->
+    <div class="device">
+      <div class="phone"><div class="screen">
+        <div class="notch"></div>
+        <div class="m-bar"><div class="t">🚩 Yatra Package</div></div>
+        <div class="m-body">
+          <div class="m-hero2"><span class="e">🚌</span><div style="font-family:'Marcellus',serif;font-size:12px;margin-top:4px;">Navagraha Temples · 2 Days</div></div>
+          <div class="m-row"><span>🏨 Hotel · 1 night</span><span>✓</span></div>
+          <div class="m-row"><span>🚐 Van transport</span><span>✓</span></div>
+          <div class="m-row"><span>🍛 Annadhanam meals</span><span>✓</span></div>
+          <div class="m-row"><span>🧭 Guide</span><span>✓</span></div>
+          <div class="m-total"><span>Per person</span><span>₹3,499</span></div>
+          <div class="m-cta">Book Package</div>
+        </div>
+        <div class="m-nav"><span>🏠</span><span>🔍</span><span>🛒</span><span>👤</span></div>
+      </div></div>
+      <div class="cap">Yatra / Tourism</div>
+    </div>
+  </div>
+
+  <div class="phones">
+    <!-- MEMBERSHIP & SAVINGS -->
+    <div class="device">
+      <div class="phone"><div class="screen">
+        <div class="notch"></div>
+        <div class="m-bar"><div class="t">👥 My Savings Fund</div></div>
+        <div class="m-body">
+          <div class="m-hero2"><div style="font-family:'Marcellus',serif;font-size:12px;">Temple Renovation Fund</div><div style="font-size:20px;font-weight:700;margin-top:4px;">₹18,000 <span style="font-size:10px;opacity:.85;">/ ₹25,000</span></div></div>
+          <div style="background:var(--cream2);border-radius:999px;height:10px;margin-top:10px;overflow:hidden;"><div style="width:72%;height:100%;background:linear-gradient(90deg,var(--saffron),var(--gold));"></div></div>
+          <div class="m-row" style="margin-top:10px;"><span>Monthly contribution</span><span>₹2,000</span></div>
+          <div class="m-row"><span>Goal date</span><span>Mar 2027</span></div>
+          <div class="m-cta">Add Contribution</div>
+          <div class="m-pay" style="text-align:center;color:var(--muted);border:none;">🏅 Gold Member</div>
+        </div>
+        <div class="m-nav"><span>🏠</span><span>🔍</span><span>🛒</span><span class="on">👤</span></div>
+      </div></div>
+      <div class="cap">Membership &amp; Savings</div>
+    </div>
+
+    <!-- WALLET & LOYALTY -->
+    <div class="device">
+      <div class="phone"><div class="screen">
+        <div class="notch"></div>
+        <div class="m-bar"><div class="t">💳 Wallet</div></div>
+        <div class="m-body">
+          <div class="m-hero2" style="background:linear-gradient(135deg,#1f6b42,var(--green));"><div style="font-size:10px;opacity:.9;">Wallet Balance</div><div style="font-size:24px;font-weight:700;font-family:'Marcellus',serif;">₹1,250</div></div>
+          <div class="m-card" style="margin-top:12px;"><div class="m-thumb">⭐</div><div><b>2,400 Reward Points</b><span class="pr">= ₹240 off</span></div></div>
+          <div class="m-row"><span>➕ Added money</span><span>+₹1,000</span></div>
+          <div class="m-row"><span>🎁 Referral bonus</span><span>+₹250</span></div>
+          <div class="m-cta">Add Money</div>
+        </div>
+        <div class="m-nav"><span>🏠</span><span>🔍</span><span>🛒</span><span class="on">👤</span></div>
+      </div></div>
+      <div class="cap">Wallet &amp; Loyalty</div>
+    </div>
+
+    <!-- AI ASSISTANT -->
+    <div class="device">
+      <div class="phone"><div class="screen">
+        <div class="notch"></div>
+        <div class="m-bar"><div class="t">🤖 Temple Assistant</div></div>
+        <div class="m-body">
+          <div style="background:var(--cream2);border-radius:10px 10px 10px 2px;padding:8px 10px;font-size:10px;max-width:82%;">Namaste! How can I help plan your occasion?</div>
+          <div style="background:var(--saffron);color:#fff;border-radius:10px 10px 2px 10px;padding:8px 10px;font-size:10px;max-width:82%;margin:8px 0 8px auto;">Plan a housewarming pooja next week</div>
+          <div style="background:var(--cream2);border-radius:10px 10px 10px 2px;padding:8px 10px;font-size:10px;max-width:88%;">Here's a plan:<br>🔱 Griha Pravesham priest<br>🌸 Housewarming flower kit<br>🎁 Return gifts ×25</div>
+          <div class="m-cta">Book all — ₹4,799</div>
+        </div>
+        <div class="m-nav"><span>🏠</span><span>🔍</span><span>🛒</span><span>👤</span></div>
+      </div></div>
+      <div class="cap">AI Assistant</div>
+    </div>
+  </div>
+
+  <div class="phones">
+    <!-- VENDOR ONBOARDING / KYC -->
+    <div class="device">
+      <div class="phone"><div class="screen">
+        <div class="notch"></div>
+        <div class="m-bar"><div class="t">🏪 Become a Vendor</div></div>
+        <div class="m-body">
+          <div class="m-label">Business details</div>
+          <div style="background:#fff;border:1px solid var(--line);border-radius:7px;padding:8px 9px;font-size:10px;color:var(--muted);">Shop name</div>
+          <div style="background:#fff;border:1px solid var(--line);border-radius:7px;padding:8px 9px;font-size:10px;color:var(--muted);margin-top:6px;">GSTIN</div>
+          <div style="background:#fff;border:1px solid var(--line);border-radius:7px;padding:8px 9px;font-size:10px;color:var(--muted);margin-top:6px;">PAN number</div>
+          <div style="background:#fff;border:1px solid var(--line);border-radius:7px;padding:8px 9px;font-size:10px;color:var(--muted);margin-top:6px;">Bank account · for payouts</div>
+          <div style="border:1px dashed var(--saffron);border-radius:7px;padding:10px;font-size:10px;color:var(--saffron-dark);text-align:center;margin-top:6px;">📎 Upload documents</div>
+          <div class="m-cta">Submit for Approval</div>
+        </div>
+      </div></div>
+      <div class="cap">Vendor Onboarding · KYC</div>
+    </div>
+
+    <!-- TEMPLE ADMIN -->
+    <div class="device">
+      <div class="phone"><div class="screen">
+        <div class="notch"></div>
+        <div class="m-bar"><div class="t">🏛️ Temple Admin</div></div>
+        <div class="m-body">
+          <div class="m-hero2"><div style="font-family:'Marcellus',serif;font-size:12px;">Kapaleeshwarar Temple</div></div>
+          <div class="m-grid" style="grid-template-columns:repeat(2,1fr); margin-top:10px;">
+            <div class="m-cat"><span class="e">💰</span><span>₹2.4L donations</span></div>
+            <div class="m-cat"><span class="e">📅</span><span>3 events</span></div>
+            <div class="m-cat"><span class="e">🙋</span><span>45 volunteers</span></div>
+            <div class="m-cat"><span class="e">🍛</span><span>Annadhanam</span></div>
+          </div>
+          <div class="m-label">Upcoming event</div>
+          <div class="m-card"><div class="m-thumb">🎉</div><div><b>Panguni Uthiram</b><span class="pr">18 Mar · décor booked</span></div></div>
+        </div>
+        <div class="m-nav"><span class="on">🏠</span><span>📅</span><span>💰</span><span>👤</span></div>
+      </div></div>
+      <div class="cap">Temple Admin</div>
+    </div>
+  </div>
+
+  <!-- ADMIN BROWSER -->
+  <div class="browser">
+    <div class="b-bar">
+      <span class="dot" style="background:#ff5f56"></span>
+      <span class="dot" style="background:#ffbd2e"></span>
+      <span class="dot" style="background:#27c93f"></span>
+      <span class="b-url">admin.templeotemple.com/dashboard</span>
+    </div>
+    <div class="b-body">
+      <div class="b-side">
+        <div style="font-family:'Marcellus',serif; font-size:13px; margin-bottom:12px;">TempleOTemple</div>
+        <div class="bi on">📊 Dashboard</div>
+        <div class="bi">✅ Vendor Approvals</div>
+        <div class="bi">📦 Orders</div>
+        <div class="bi">💸 Payouts</div>
+        <div class="bi">⚙️ Commission</div>
+        <div class="bi">📈 Reports</div>
+      </div>
+      <div class="b-main">
+        <div class="b-stats">
+          <div class="b-stat"><div class="n">₹4.8L</div><div class="l">Revenue (month)</div></div>
+          <div class="b-stat"><div class="n">1,284</div><div class="l">Orders</div></div>
+          <div class="b-stat"><div class="n">96</div><div class="l">Active vendors</div></div>
+        </div>
+        <table class="b-tbl">
+          <tr><th>Order</th><th>Vendor</th><th>Amount</th><th>Status</th></tr>
+          <tr><td>#10482</td><td>Sri Flowers</td><td>₹499</td><td><span class="badge ok">Paid</span></td></tr>
+          <tr><td>#10483</td><td>Priest Raman</td><td>₹2,500</td><td><span class="badge wait">Pending</span></td></tr>
+          <tr><td>#10484</td><td>Brass Idol Co.</td><td>₹3,150</td><td><span class="badge ok">Paid</span></td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+  <p class="note">Mockups for illustration — actual screens are finalized during the design phase, fully branded in Tamil &amp; English.</p>
+</div></section>
+
+<!-- MODULES -->
+<section id="modules"><div class="wrap">
+  <span class="kicker">What's Inside</span>
+  <h2>Seven marketplace verticals + community features</h2>
+  <div class="mods">
+    <div class="mod"><span class="em">🌸</span><div><b>Flowers Market</b><span>Archanai kits, festival, wedding &amp; housewarming flower packages.</span></div></div>
+    <div class="mod"><span class="em">🎉</span><div><b>Event Management</b><span>Deity &amp; wedding decoration, Nadhaswaram, Villupaatu, Karagattam &amp; folk arts.</span></div></div>
+    <div class="mod"><span class="em">🔱</span><div><b>Temple &amp; Poojas</b><span>Homams, abhishekams, daily/festival poojas, weddings, upanayanam, griha pravesham.</span></div></div>
+    <div class="mod"><span class="em">🎁</span><div><b>Gift &amp; Idol</b><span>Religious &amp; return gifts, brass articles, decorative items.</span></div></div>
+    <div class="mod"><span class="em">🚩</span><div><b>Temple Tourism</b><span>Hotels, restaurants, marriage halls, pilgrimage.</span></div></div>
+    <div class="mod"><span class="em">🔮</span><div><b>Astrologers</b><span>Consultation, horoscope, matching, vastu, numerology, gemstones.</span></div></div>
+    <div class="mod"><span class="em">🏛️</span><div><b>Temple Architect</b><span>Agama services, construction, renovation, kumbabishekam, idol sculpting.</span></div></div>
+    <div class="mod"><span class="em">🛕</span><div><b>Build a Temple · Crowdfunding</b><span>Sponsor the building of temples for revered saints &amp; gurus — GoFundMe-style campaigns with live progress.</span></div></div>
+  </div>
+  <p class="note">Plus wallet, membership &amp; savings funds, loyalty, and an AI Assistant (temple finder, planner). General temple donations come in a later phase.</p>
+</div></section>
+
+<!-- BUSINESS MODEL -->
+<section id="revenue"><div class="wrap">
+  <span class="kicker">Your Business Model</span>
+  <h2>You earn on every transaction — automatically</h2>
+  <div class="grid g3">
+    <div class="card"><span class="ic">📊</span><h3>Commission per order</h3><p>A % of every order/booking, set by you per category (typical 2%–15%).</p></div>
+    <div class="card"><span class="ic">⚡</span><h3>Automatic settlement</h3><p>Customer pays in full; your commission is retained and the vendor is auto-paid — no manual accounting.</p></div>
+    <div class="card"><span class="ic">🧾</span><h3>GST compliant</h3><p>Tax invoices, GSTIN/PAN on vendor records, proper tax breakup.</p></div>
+  </div>
+  <div class="callout"><h3>Future revenue levers (optional)</h3><p>Vendor premium subscriptions · promoted listings · featured placement during festivals.</p></div>
+</div></section>
+
+<!-- SUCCESS SCENARIO -->
+<section id="success"><div class="wrap">
+  <span class="kicker">Real-World Success</span>
+  <h2>How the money actually flows</h2>
+  <p class="lead">Not just screens — here's the real economics and a realistic growth path for the business.</p>
+
+  <h3>Worked example — what you earn per order</h3>
+  <table>
+    <tr><th>Example order</th><th>Order value</th><th>Vendor gets</th><th>Gateway ~2%</th><th>Your commission</th></tr>
+    <tr><td>🌸 Festival flower kit · 10%</td><td>₹500</td><td>₹450</td><td>₹10</td><td class="yes">₹40 net</td></tr>
+    <tr><td>🔱 Ganapathi Homam · 8%</td><td>₹2,500</td><td>₹2,300</td><td>₹50</td><td class="yes">₹150 net</td></tr>
+    <tr><td>🎁 Brass idol · 12%</td><td>₹2,150</td><td>₹1,892</td><td>₹43</td><td class="yes">₹215 net</td></tr>
+  </table>
+  <p class="note">You set the commission % per category. GST (18% on commission) and operating costs apply on your net.</p>
+
+  <h3>A festival day — in real life</h3>
+  <div class="callout">
+    <p><b>Aadi month, 6 AM.</b> Priya opens TempleOTemple, books a Ganapathi Homam for her new home, and adds an archanai kit and 25 return gifts — paying ₹5,200 by UPI in one tap.</p>
+    <p><b>Instantly:</b> Priest Raman gets a booking alert and confirms the 6 AM slot · Sri Flowers gets the kit order and packs it for same-day delivery · the gift vendor ships the return gifts.</p>
+    <p><b>For Bala:</b> ₹5,200 flows through Razorpay — each vendor is auto-paid their share, and <b>Bala keeps ~₹480 commission</b> from this one order. On a busy festival day with 400 such orders, that's <b>~₹1.9 lakh in a single day.</b></p>
+  </div>
+
+  <h3>Realistic 12-month growth — conservative pilot → scale</h3>
+  <table>
+    <tr><th>Milestone</th><th>Vendors</th><th>Orders / month</th><th>Monthly GMV</th><th>Your commission / mo</th></tr>
+    <tr><td>Month 1 — Pilot</td><td>20</td><td>300</td><td>₹1.8 L</td><td>~₹18,000</td></tr>
+    <tr><td>Month 3</td><td>50</td><td>1,000</td><td>₹6 L</td><td>~₹60,000</td></tr>
+    <tr><td>Month 6</td><td>120</td><td>3,000</td><td>₹18 L</td><td>~₹1.8 L</td></tr>
+    <tr><td>Month 12</td><td>300</td><td>8,000</td><td>₹50 L</td><td>~₹5 L</td></tr>
+  </table>
+  <p class="note">Illustrative, conservative assumptions for one focus region. Festival seasons spike these numbers well above the baseline.</p>
+</div></section>
+
+<!-- OPERATIONS -->
+<section id="operations"><div class="wrap">
+  <span class="kicker">Built for Reality</span>
+  <h2>How we handle the hard parts</h2>
+  <p class="lead">The operational truths that make a temple marketplace actually work — not just look good.</p>
+  <div class="grid g2">
+    <div class="card"><span class="ic">🌸</span><h3>Perishable flowers</h3><p>Same-day &amp; scheduled delivery windows, local vendors matched by area, and festival cut-off times.</p></div>
+    <div class="card"><span class="ic">🔱</span><h3>Priest no-shows</h3><p>Confirmed bookings, reminders, verified priests, and a backup-priest fallback so a pooja never fails.</p></div>
+    <div class="card"><span class="ic">✅</span><h3>Trust &amp; quality</h3><p>KYC-verified vendors, ratings &amp; reviews, and admin approval before anyone can sell.</p></div>
+    <div class="card"><span class="ic">↩️</span><h3>Refunds &amp; disputes</h3><p>Clear per-category cancellation rules; admin refunds via the gateway; money held safely until delivery.</p></div>
+    <div class="card"><span class="ic">💵</span><h3>Cash on Delivery</h3><p>Optional COD for tier-2/3 towns where digital trust is still growing — reconciliation built in.</p></div>
+    <div class="card"><span class="ic">📶</span><h3>Low-tech vendors</h3><p>A simple Tamil seller app, hands-on onboarding, and clear order alerts so any shop can join.</p></div>
+  </div>
+</div></section>
+
+<!-- HOW IT RUNS -->
+<section id="runs"><div class="wrap">
+  <span class="kicker">How the Business Runs</span>
+  <h2>The key operational flows, simply</h2>
+  <p class="lead">Beyond buying — how quotes, refunds, and your payouts work day to day.</p>
+
+  <div class="flow"><h3>📝 Quotation — events &amp; temple architect</h3><div class="steps">
+    <span class="step">Buyer sends requirement</span><span class="arrow">→</span>
+    <span class="step">Vendor sends quote</span><span class="arrow">→</span>
+    <span class="step">Buyer accepts</span><span class="arrow">→</span>
+    <span class="step">Pay advance</span><span class="arrow">→</span>
+    <span class="step">Work scheduled</span>
+  </div></div>
+
+  <div class="flow"><h3>↩️ Refund &amp; dispute</h3><div class="steps">
+    <span class="step">Buyer cancels / raises issue</span><span class="arrow">→</span>
+    <span class="step">Policy check</span><span class="arrow">→</span>
+    <span class="step">Admin reviews</span><span class="arrow">→</span>
+    <span class="step">Refund via gateway</span><span class="arrow">→</span>
+    <span class="step">Both sides notified</span>
+  </div></div>
+
+  <div class="flow"><h3>💸 Your payout cycle</h3><div class="steps">
+    <span class="step">Order delivered</span><span class="arrow">→</span>
+    <span class="step">Commission retained</span><span class="arrow">→</span>
+    <span class="step">Vendor share queued</span><span class="arrow">→</span>
+    <span class="step">Auto-settled daily / weekly</span><span class="arrow">→</span>
+    <span class="step">You keep commission</span>
+  </div></div>
+
+  <div class="flow"><h3>🛕 Build-a-temple campaign</h3><div class="steps">
+    <span class="step">Bala launches campaign</span><span class="arrow">→</span>
+    <span class="step">Promoted to devotees</span><span class="arrow">→</span>
+    <span class="step">Sponsors contribute</span><span class="arrow">→</span>
+    <span class="step">Milestones + proof uploaded</span><span class="arrow">→</span>
+    <span class="step">Funds released to build</span>
+  </div></div>
+  <p class="note">Full operational detail — support, multi-vendor orders, settlement rules, fund release — is documented in the build plan.</p>
+</div></section>
+
+<!-- AVAILABILITY -->
+<section id="availability"><div class="wrap">
+  <span class="kicker">Platform Availability</span>
+  <h2>Available everywhere your customers are</h2>
+  <table>
+    <tr><th>Capability</th><th>Status</th></tr>
+    <tr><td>Android (Google Play)</td><td class="yes">✓ Yes</td></tr>
+    <tr><td>iOS (Apple App Store)</td><td class="yes">✓ Yes</td></tr>
+    <tr><td>Web (admin &amp; vendor portal)</td><td class="yes">✓ Yes</td></tr>
+    <tr><td>Languages</td><td>English (default) · Tamil option (more can be added)</td></tr>
+    <tr><td>Payments</td><td>UPI · Credit/Debit card · Net-banking</td></tr>
+    <tr><td>Coverage</td><td>Launch in a focus region → expand across India</td></tr>
+  </table>
+</div></section>
+
+<!-- TECH -->
+<section id="tech"><div class="wrap">
+  <span class="kicker">Technology — Low Risk</span>
+  <h2>Built on a proven India marketplace platform</h2>
+  <p class="lead">The hard, risky parts — payments, tax, vendor payouts, app-store compliance — are already solved and tested.</p>
+  <ul class="check">
+    <li>Secure cloud backend with bank-grade data isolation</li>
+    <li>Razorpay for UPI/card payments + automatic, RBI-compliant vendor settlement</li>
+    <li>Instant notifications for order &amp; booking updates</li>
+    <li>Reliable and scalable for thousands of vendors and orders</li>
+  </ul>
+  <div class="callout"><h3>Why this matters to you</h3><p>Faster launch, lower build cost, and a platform that has <b>already passed the difficult India-specific requirements.</b></p></div>
+</div></section>
+
+<!-- PHASES -->
+<section id="phases"><div class="wrap">
+  <span class="kicker">Delivery Plan</span>
+  <h2>Phased rollout — value from day one</h2>
+  <div class="phase"><div class="pnum">0</div><div><b>Foundation</b><p>Platform setup, branding, Tamil language — app shell running.</p></div></div>
+  <div class="phase"><div class="pnum">1</div><div><b>Products live</b><p>Flowers + Gift &amp; Idol, full ordering &amp; payment — first real sales.</p></div></div>
+  <div class="phase"><div class="pnum">2</div><div><b>Services live</b><p>Poojas, Events, Astrology, Tourism, Architect + booking calendars — full marketplace.</p></div></div>
+  <div class="phase"><div class="pnum">3</div><div><b>Community &amp; Build-a-Temple</b><p>Flagship crowdfunding campaigns, Membership, Savings funds, Temple-admin. (General donations come later.)</p></div></div>
+  <div class="phase"><div class="pnum">4</div><div><b>Smart features</b><p>AI assistant, loyalty, festival displays — differentiation.</p></div></div>
+  <div class="phase"><div class="pnum">5</div><div><b>Launch</b><p>Full testing + Play Store &amp; App Store release — public launch.</p></div></div>
+  <p class="note">Detailed timeline and effort confirmed on sign-off.</p>
+</div></section>
+
+<!-- WHAT WE NEED -->
+<section id="need"><div class="wrap">
+  <span class="kicker">What We Need From You</span>
+  <h2>To get started</h2>
+  <ul class="check">
+    <li>Business &amp; GST details (for the platform merchant account)</li>
+    <li>Razorpay merchant account (we assist setup)</li>
+    <li>Apple Developer + Google Play accounts (we assist setup)</li>
+    <li>Branding inputs: logo, colors, temple/deity imagery (with usage rights)</li>
+    <li>A few pilot vendors to onboard first — flower sellers, a priest, a decorator</li>
+  </ul>
+</div></section>
+
+<!-- COSTS -->
+<section id="costs"><div class="wrap">
+  <span class="kicker">Indicative Running Costs</span>
+  <h2>Lean to start, scales with growth</h2>
+  <table>
+    <tr><th>Item</th><th>Cost</th></tr>
+    <tr><td>Cloud backend (Supabase Pro)</td><td>~₹2,000 / month</td></tr>
+    <tr><td>Web hosting</td><td>₹0 – ₹1,700 / month</td></tr>
+    <tr><td>Apple Developer account</td><td>~₹8,500 / year</td></tr>
+    <tr><td>Google Play account</td><td>~₹2,100 (one-time)</td></tr>
+    <tr><td>Payment gateway</td><td>~2% per transaction (no fixed fee)</td></tr>
+    <tr><td>SMS/OTP, maps, AI</td><td>Usage-based, low at start</td></tr>
+  </table>
+  <p class="note">Development fee quoted separately.</p>
+</div></section>
+
+<!-- NEXT STEPS -->
+<section id="next"><div class="wrap">
+  <div class="next">
+    <span class="kicker" style="color:var(--gold);">Next Steps</span>
+    <h2>Let's bring TempleOTemple to life</h2>
+    <ol>
+      <li>Review &amp; approve this proposal.</li>
+      <li>Confirm commission %, pilot region, and first vendors.</li>
+      <li>Sign-off → we begin Phase 0 and share a detailed timeline.</li>
+    </ol>
+  </div>
+</div></section>
+
+<footer>
+  <div class="wrap">
+    <p><b>TempleOTemple</b> — Unified Temple Commerce Super App<br>
+    Prepared for Bala · <em>[Your Name / Company]</em></p>
+  </div>
+</footer>
+
+</body>
+</html>
